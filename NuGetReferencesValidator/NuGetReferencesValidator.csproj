@@ -53,9 +53,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="ErrorListHelper.cs" />
-    <Compile Include="ProjectEventArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SolutionEventDispatcher.cs" />
     <Compile Include="ValidatorPackage.cs" />
   </ItemGroup>
   <ItemGroup>

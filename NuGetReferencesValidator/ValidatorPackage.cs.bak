@@ -4,6 +4,7 @@
 // </copyright>
 //------------------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
@@ -12,8 +13,8 @@ using System.IO.Abstractions;
 using System.Linq;
 using System.Runtime.InteropServices;
 using Clide;
-using Clide.Events;
 using Clide.Sdk.Solution;
+using Clide.Solution;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using NuGetUtilities;
@@ -67,21 +68,29 @@ namespace NuGetReferencesValidator
             base.Initialize();
 
             DevEnv = Host.Initialize(this);
-            DevEnv.SolutionExplorer().Solution.ProjectOpened += OnProjectOpened;
+            DevEnv.SolutionExplorer().Solution.SolutionOpened += OnSolutionOpened;
 
             Trace.WriteLine("Package initialized", "ValidatorPackage");
         }
 
-        private void OnProjectOpened(object sender, ProjectEventArgs e)
+        private void OnSolutionOpened(object sender, EventArgs e)
         {
-            Trace.WriteLine($"Project opened: {e.Project.DisplayName}", "ValidatorPackage");
-            var items = e.Project.Nodes.Traverse().OfType<ItemNode>();
-            var packagesItem = items.FirstOrDefault(_ => _.DisplayName.ToLowerInvariant() == "packages.config");
-            var path = packagesItem?.PhysicalPath;
-            if (!File.Exists(path))
-                return;
+            var projects = DevEnv.SolutionExplorer().Solution.FindProjects();
 
-            ProcessPackagesFile(path);
+            Trace.WriteLine($"Solution opened", "ValidatorPackage");
+
+            foreach (var project in projects)
+            {
+                Trace.WriteLine($"Project: {project.DisplayName}", "ValidatorPackage");
+
+                var items = project.Nodes.Traverse().OfType<ItemNode>();
+                var packagesItem = items.FirstOrDefault(_ => _.DisplayName.ToLowerInvariant() == "packages.config");
+                var path = packagesItem?.PhysicalPath;
+                if (!File.Exists(path))
+                    continue;
+
+                ProcessPackagesFile(path);
+            }
         }
 
         private void ProcessPackagesFile(string path)
