@@ -4,6 +4,7 @@
 // </copyright>
 //------------------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
@@ -116,17 +117,22 @@ namespace NuGetReferencesValidator
             var message =
                 $"Inconsistent NuGet reference for package {package.Id}: {package.Version}/{package.TargetFramework} vs {existingPackage.Version}/{existingPackage.TargetFramework}";
             var helper = new ErrorListHelper();
-            helper.Write(TaskCategory.BuildCompile, TaskErrorCategory.Error, "NuGetReferencesValidatorContext", message,
-                null, 0, 0);
-            //helper.Write(new ErrorTask
-            //{
-            //	Category = TaskCategory.BuildCompile,
-            //	ErrorCategory = TaskErrorCategory.Error,
-            //	Text = message,
-            //	Document = null,
-            //	Line = 0,
-            //	Column = 0
-            //});
+            var task = new ErrorTask
+            {
+                Category = TaskCategory.BuildCompile,
+                ErrorCategory = TaskErrorCategory.Error,
+                Text = message
+            };
+            task.Navigate += OpenPackageManager;
+            helper.Write(task);
+        }
+
+        private static void OpenPackageManager(object sender, EventArgs e)
+        {
+            var uiShell = GetGlobalService(typeof(IVsUIShell)) as IVsUIShell;
+            var guid = Guid.Parse("25FD982B-8CAE-4CBD-A440-E03FFCCDE106");
+            object pvaln = null;
+            uiShell?.PostExecCommand(ref guid, 512, 0, ref pvaln);
         }
 
         #region Overrides of Package
