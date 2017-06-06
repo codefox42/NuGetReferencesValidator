@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
-        <Identity Id="NuGetReferencesValidator.Company.109c5e31-0002-4385-a2ef-8c0eed708d3b" Version="0.1.1" Language="en-US" Publisher="Codefox42" />
+        <Identity Id="NuGetReferencesValidator.Company.109c5e31-0002-4385-a2ef-8c0eed708d3b" Version="0.1.2" Language="en-US" Publisher="Codefox42" />
         <DisplayName>NuGet References Validator</DisplayName>
-        <Description xml:space="preserve">Validates NuGet references when a C# solution has been loaded. If one or more packages must be consolidated, an error entry is added to the error tool window. Double clicking this error entry opens the NuGet package manager.</Description>
+        <Description xml:space="preserve">Validates NuGet references when a C# solution has been loaded. If one or more packages must be consolidated, an error entry is added to the error tool window.</Description>
         <License>LICENSE.txt</License>
         <Tags>nuget</Tags>
     </Metadata>
