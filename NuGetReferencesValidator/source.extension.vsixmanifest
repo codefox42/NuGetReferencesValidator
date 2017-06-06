@@ -4,6 +4,7 @@
         <Identity Id="NuGetReferencesValidator.Company.109c5e31-0002-4385-a2ef-8c0eed708d3b" Version="0.1.1" Language="en-US" Publisher="Codefox42" />
         <DisplayName>NuGet References Validator</DisplayName>
         <Description xml:space="preserve">Validates NuGet references when a C# solution has been loaded. If one or more packages must be consolidated, an error entry is added to the error tool window. Double clicking this error entry opens the NuGet package manager.</Description>
+        <License>LICENSE.txt</License>
         <Tags>nuget</Tags>
     </Metadata>
     <Installation>
